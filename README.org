@@ -8,6 +8,12 @@ cd client
 elm install elm/http
 #+END_SRC
 
+** Server
+#+BEGIN_SRC sh
+  cd server
+  go get
+#+END_SRC
+
 * Debug
 ** Client
 #+BEGIN_SRC sh
@@ -19,7 +25,7 @@ elm install elm/http
 ** Server
 #+BEGIN_SRC sh
   cd server
-  go run main.go -debug /tmp/gitrepo
+  go run main.go -debug ../testrepo
 #+END_SRC
 
 * Build

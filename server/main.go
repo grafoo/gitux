@@ -29,14 +29,15 @@ func main() {
 		log.Fatal(err)
 	}
 
-	status, err := worktree.Status()
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	getStatus := func() string {
+		status, err := worktree.Status()
+		if err != nil {
+			log.Fatal(err)
+		}
+
 		if *debug {
 			for name, fileStatus := range status {
+
 				log.Printf(
 					"Path: %s, Staging Status: %s, Worktree Status: %s, Extra Status: %s\n",
 					name,
@@ -56,12 +57,15 @@ func main() {
 	}
 
 	handleGetStatus := func(res http.ResponseWriter, req *http.Request) {
+		status := getStatus()
 		if *debug {
-			log.Println(req)
+			log.Println(*req)
 			res.Header().Set("Access-Control-Allow-Origin", "*")
+			log.Println(status)
 		}
+		res.Header().Set("Content-Type", "application/json")
 
-		io.WriteString(res, getStatus())
+		io.WriteString(res, status)
 	}
 
 	http.HandleFunc("/", handleGetStatus)
